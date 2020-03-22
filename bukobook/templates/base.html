@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<title>{% block title %}{% endblock %} - ButoBook</title>
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+<nav>
+    <h1><a href="{% url 'bukobook:index' %}">Bukobook</a></h1>
+    {% if request.user.is_authenticated %}
+        <li><a href="{% url 'bukobook:create' %}">New</a></li>
+        <li><a href="{% url 'bukobook:logout' %}">Logout</a></li>
+    {% else %}
+        <li><a href="{% url 'bukobook:register'%}" >Register</a></li>
+        <li><a href="{% url 'bukobook:login' %}">Login</a></li>
+    {% endif %}
+</nav>
+
+
+<section class="content">
+    {% block content %}{% endblock %}
+    {% if messages %}
+        <nav class="flash">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tag }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+        </nav>
+    {% endif %}
+    <div id="footer">
+        {% block footer %}
+            &copy; Copyright 2020 by <a href="{% url 'bukobook:index' %}">米筱sama</a>.
+        {% endblock %}
+    </div>
+</section>

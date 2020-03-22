@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}From {{ user.username }}{% endblock %}
+{% block content %}
+    {% for article in articles %}
+        <article class="post">
+        <header>
+            <div>
+                <h1>{{ article.title }}</h1>
+            </div>
+            {% if user.id == request.user.id %}
+                <li><a href="{% url 'bukobook:update' id=article.id %}">Edit</a></li>
+            {% endif %}
+            <li><a href="{% url 'bukobook:article' id=article.id %}" style="float: right">查看全文</a></li>
+        </header>
+        {% if not forloop.last %}
+            <hr>
+        {% endif %}
+    {% endfor %}
+    <hr>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome to Bukobook{% endblock %}
+{% block content %}
+    {% for article in latest_list %}
+        <article class="post">
+        <header>
+            <div>
+                <h1>{{ article.title }}</h1>
+                <div class="about">by
+                    <a href="{% url 'bukobook:personal' id=article.author_id %}">
+                        {{ article.author__username }}</a>
+                       on {{ article.create_time }}</div>
+            </div>
+        </header>
+        <nobr><span class="body">{{ article.body|slice:"30" }}</span>
+        <a href="{% url 'bukobook:article' id=article.id %}">
+            {% if article.body|length > 30 %}
+                ...
+            {% else %}
+                查看全文
+            {% endif %}
+        </a>
+        </nobr>
+        {% if not forloop.last %}
+            <hr>
+        {% endif %}
+    {% endfor %}
+    <hr>
+{% endblock %}

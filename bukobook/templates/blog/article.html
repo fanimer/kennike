@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}By {{ article.author }}{% endblock %}
+{% block content %}
+        <article class="post">
+        <header>
+            <div>
+                <h1>{{ article.title }}</h1>
+                    <div class="about">-By
+                        <a href="{% url 'bukobook:personal' id=article.author_id %}">
+                            {{ article.author }}</a></div>
+            </div>
+            {% if article.author_id == request.user.id %}
+            <a href="{% url 'bukobook:update' id=article.id %}">Edit</a>
+            {% endif %}
+        </header>
+            <p><article class="body">{{ article.body }}</article></p>
+    <hr>
+    <form method="post" action="{% url 'bukobook:comment' id=article.id %}">
+        <label for="comment">Comment: </label>
+        <textarea name="comment" id="" >{{ article.comment }}</textarea>
+        <input type="submit" value="Save">
+    </form>
+        {% for comment in comments %}
+            <article class="post">
+            <header>
+                <div>
+                    <h1><a href="{% url 'bukobook:personal' id=comment.author_id%}">
+                        {{ comment.author }}</a></h1>
+
+                    <div class="about"># {{ forloop.counter }}</div>
+                    <div class="about" style="float: right"> on {{ comment.create_time }}</div>
+                </div>
+            </header>
+            <article>{{ comment.body }}</article>
+            {% if not forloop.last %}
+                <hr>
+            {% endif %}
+        {% endfor %}
+        <hr>
+{% endblock %}
