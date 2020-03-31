@@ -1,11 +1,17 @@
 {% extends 'base.html' %}
+{% block title %}登录{% endblock %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+
 {% block content %}
-    <form method="post">
-        {% csrf_token %}
-        <label for="username">Username</label>
-        <input name="username" id="username" required>
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password" required>
-        <input type="submit" name="Register">
-    </form>
+    <div class="auth"  style="margin-left: 200px">
+        <h1>Bukobook</h1>
+        <form method="post">
+            <input name="username" id="username" placeholder="用户名称（必填）" required>
+            <input type="password" name="password" id="password" placeholder="用户密码（必填"）required>
+            <input type="submit" name="Register" value="注册">
+        </form>
+    </div>
 {% endblock %}

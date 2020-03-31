@@ -1,27 +1,29 @@
-{% extends 'base.html' %}
+{% extends 'gridFrame.html' %}
 
 {% block title %}Welcome to Bukobook{% endblock %}
-{% block content %}
+{% block lcon %}
     {% for article in latest_list %}
-        <article class="post">
-        <header>
-            <div>
-                <h1>{{ article.title }}</h1>
-                <div class="about">by
-                    <a href="{% url 'bukobook:personal' id=article.author_id %}">
-                        {{ article.author__username }}</a>
-                       on {{ article.create_time }}</div>
-            </div>
-        </header>
-        <nobr><span class="body">{{ article.body|slice:"30" }}</span>
-        <a href="{% url 'bukobook:article' id=article.id %}">
-            {% if article.body|length > 30 %}
-                ...
-            {% else %}
-                查看全文
-            {% endif %}
-        </a>
-        </nobr>
+        <article class="post" onclick="location='{% url 'bukobook:article' id=article.id %}'">
+            <header>
+                <div>
+                    <h1>{{ article.title }}</h1>
+                    <div class="about" style="margin-left: 10px;font-size: small">by
+                        <a href="{% url 'bukobook:personal' id=article.author_id %}">
+                            {{ article.author__username }}</a>
+                           on {{ article.create_time }}</div>
+                </div>
+            </header>
+        <div>
+            <p>
+                <article class="body" style="display: inline; width: 80%;">{{ article.body|slice:"30" }}</article>
+                {% if article.body|length > 30 %}
+                    <span>...</span>
+                {% else %}
+                    <span style="float: right;">查看全文</span>
+                {% endif %}
+            </p>
+        </div>
+        </article>
         {% if not forloop.last %}
             <hr>
         {% endif %}

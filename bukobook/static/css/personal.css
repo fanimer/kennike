@@ -1,0 +1,127 @@
+.body .user-info {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+}
+
+.user-info .user-head {
+    width: 150px;
+    height: 150px;
+    border-radius: 150px;
+}
+
+.user-info .user {
+    padding: 20px 20px;
+    text-align: center;
+}
+
+.lcon .user-info h1 {
+    font-size: xx-large;
+}
+
+.info {
+    margin: 30px;
+    margin-top: 20px;
+    height: 175px;
+    border-radius: 30px;
+    background: gainsboro;
+}
+
+.info .birthday {
+    margin: 10px;
+    padding: 10px;
+    border-radius: 20px;
+    background: #377ba8;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: large;
+    color: white;
+}
+
+.cup {
+    background: #cae6f6;
+    height: 100px;
+    margin:0px 10px;
+    border-radius: 30px;
+    text-align: center;
+}
+
+.cup-name {
+    background: #cae6f6;
+    padding: 10px 0px;
+    color: cornflowerblue;
+    border-color: black;
+    cursor: pointer;
+}
+.cup-hr {
+    background: #377ba8;
+    height: 10px;
+}
+
+.cup-value {
+    padding: 10px 0px;
+    font-weight: normal;
+    color: white;
+    cursor: pointer;
+}
+
+.user-text .list-body {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+}
+
+.list-body .article {
+    margin: 20px;
+    border-radius: 0px 50px;
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    border: 5px solid;
+    border-color: #377ba8;
+    height: 200px;
+    width: 800px;
+    cursor: pointer;
+}
+
+.article:hover > .title,
+.article:hover > .synopsis {
+    background: lightgrey;
+}
+
+.article .title {
+    background: #cae6f6;
+    padding: 20px;
+    margin: 10px;
+    text-align: center;
+    border-radius: 0px 0px 0px 40px;
+    font-size: large;
+}
+
+.article .synopsis {
+    background: #cae6f6;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 0px 40px 0px 0px;
+    text-overflow:ellipsis;
+    font-size: large;
+    overflow: hidden;
+    line-height: 2.5rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+}
+
+.list-head {
+    background: #cae6f6;
+    text-align: center;
+}
+
+.tag {
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+}
+
+.name {
+    display: inline-block;
+    font-family: STHeiti;
+    font-size: xx-large;
+}

@@ -1,15 +1,22 @@
 {% extends 'base.html' %}
 
-{% block header %}
-    <h1>{% block title %}New Post{% endblock %}</h1>h1>
+{% block title %}New Post{% endblock %}
+
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/normal.css' %}">
 {% endblock %}
 
 {% block content %}
     <form method="post">
+    <div class="submit-title">
         <label for=title">Title</label>
         <input name="title" id="title" required>
+    </div>
+    <div class="sumbit-body">
         <label for="body">Body</label>
         <textarea name="body" id="body" placeholder="Input body on here"></textarea>
+    </div>
         <input type="submit" value="Save">
     </form>
 {% endblock %}

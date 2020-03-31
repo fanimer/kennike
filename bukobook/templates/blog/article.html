@@ -1,41 +1,113 @@
-{% extends 'base.html' %}
+{% extends 'gridFrame.html' %}
 
 {% block title %}By {{ article.author }}{% endblock %}
-{% block content %}
-        <article class="post">
-        <header>
-            <div>
-                <h1>{{ article.title }}</h1>
-                    <div class="about">-By
-                        <a href="{% url 'bukobook:personal' id=article.author_id %}">
-                            {{ article.author }}</a></div>
-            </div>
-            {% if article.author_id == request.user.id %}
-            <a href="{% url 'bukobook:update' id=article.id %}">Edit</a>
-            {% endif %}
-        </header>
-            <p><article class="body">{{ article.body }}</article></p>
-    <hr>
-    <form method="post" action="{% url 'bukobook:comment' id=article.id %}">
-        <label for="comment">Comment: </label>
-        <textarea name="comment" id="" >{{ article.comment }}</textarea>
-        <input type="submit" value="Save">
-    </form>
-        {% for comment in comments %}
-            <article class="post">
-            <header>
-                <div>
-                    <h1><a href="{% url 'bukobook:personal' id=comment.author_id%}">
-                        {{ comment.author }}</a></h1>
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/grid.css' %}">
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+{% block js %}
+    <script src="{% static 'js/comment.js' %}"></script>
+    <script src="{% static 'js/tools.js' %}"></script>
+{% endblock %}
 
-                    <div class="about"># {{ forloop.counter }}</div>
-                    <div class="about" style="float: right"> on {{ comment.create_time }}</div>
+{% block lcon %}
+        <div class="article">
+            <div class="title">
+                <h1>{{ article.title }}</h1>
+            </div>
+            <div class="body">
+                <pre style="font-family: serif; font-size: large; white-space: pre-line">{{ article.body }}</pre>
+            </div>
+        </div>
+        <div class="comment">
+            {% if request.user.is_authenticated %}
+            <div class="submit-comment">
+                <form class="main-comment-box" method="post" action="{% url 'bukobook:comment' id=article.id%}">
+                    <label for="comment">Comment: </label>
+                    <textarea class="comment-box" name="comment" id="comment">{{ article.comment }}</textarea>
+                    <button id="main-submit-button" type="submit" value="Save">评论</button>
+                </form>
+            </div>
+            {% else %}
+                <div class="auth"  id="login">
+                    <p>评论请先登录</p>
+                    <form method="post" action="{% url 'bukobook:login' %}">
+                        <input name="username" id="username" placeholder="用户名称（必填）" required>
+                        <input type="password" name="password" id="password" placeholder="用户密码（必填）" required>
+                        <input type="submit" name="Register" value="登录">
+                    </form>
+                    <p>没有账号？</p>
+                    <a href="{% url 'bukobook:register' %}">点此选择加入我们</a>
                 </div>
-            </header>
-            <article>{{ comment.body }}</article>
-            {% if not forloop.last %}
-                <hr>
             {% endif %}
-        {% endfor %}
-        <hr>
+            <div class="show-comment">
+            {% for comment in comments %}
+                <div class="comment-area" data-index="{{ comment.id }}">
+                    <div class="author" data-id="{{ comment.author_id }}">
+                        <h1>
+                            <a href="{% url 'bukobook:personal' id=comment.author_id%}">{{ comment.author }}</a>
+                        </h1>
+                        <div class="about"># {{ forloop.counter }}</div>
+                    </div>
+                    <div class="comment-body">
+                        <article class="comment-body">{{ comment.body }}</article>
+                        <div class="about" style="display: inline">on {{ comment.create_time }}</div>
+                        <div style="float:right;">
+                            {% if request.user.is_authenticated %}
+                                <span class="reply-button" onclick="ReplyButtonAction('{{ comment.id }}', '');">
+                                    回复
+                                </span>
+                            {% else %}
+                                <span class="reply-button" onclick="Roll('#login')">
+                                    回复
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="reply-body">
+                        {% for reply in comment.reply %}
+                            <div class="reply-area">
+                                <span><a href="{% url 'bukobook:personal' id=reply.author_id%}">{{ reply.author }}</a></span>
+                                <article data-id="{{ reply.id }}" class="comment-body">
+                                    <div style="color: darkgray; display: inline;">
+                                        {% if reply.reply_to %}
+                                            @{{ reply.reply_to }}:
+                                        {% endif %}
+                                    </div>{{ reply.body }}</article>
+                                    <div style="padding: 5px 0px;">
+                                        <div class="about">on {{ comment.create_time }}</div>
+                                        <div style="float:right;">
+                                            {% if request.user.is_authenticated %}
+                                            <span class="reply-button" onclick="ReplyButtonAction('{{ comment.id }}', '{{ reply.author }}');">
+                                                回复
+                                            </span>
+                                            {% else %}
+                                            <span class="reply-button" onclick="Roll('#login')">
+                                                回复
+                                            </span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <form class="reply" data-id="{{ comment.id }}" action="{% url 'bukobook:reply' id=article.id %}" method="post">
+                        <label class="comment-label">Comment:</label>
+                        <textarea class="reply-box" name="reply"></textarea>
+                        <button class="sub-button" type="submit" value="submit">回复评论</button>
+                    </form>
+                </div>
+                {% if not forloop.last %}
+                    <hr>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    <hr>
+{% endblock %}
+{% block rcon %}
+        <article class="post" id="r-lon">
+            ...
+        </article>
 {% endblock %}

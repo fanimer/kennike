@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}{% endblock %}
+{% block content %}
+    {% if messages %}
+        <nav class="flash">
+            {% for message in messages %}
+                <script>alert('{{ message }}')</script>
+            {% endfor %}
+        </nav>
+    {% endif %}
+    <div class="grid-body">
+        <div class="lcon">
+            {% block lcon %}{% endblock %}
+        </div>
+        <div class="rcon">
+            {% block rcon %}{% endblock %}
+        </div>
+    </div>
+
+{% endblock %}

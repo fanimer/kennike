@@ -1,21 +1,71 @@
 {% extends 'base.html' %}
 
 {% block title %}From {{ user.username }}{% endblock %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/personal.css' %}">
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{% static 'js/personal.js' %}"></script>
+{% endblock %}
+
 {% block content %}
-    {% for article in articles %}
-        <article class="post">
-        <header>
-            <div>
-                <h1>{{ article.title }}</h1>
+    <div class="user-info">
+        <div class="user">
+            <img class="user-head" src="{% static '/img/background.jpeg' %}">
+            <h1>{{ user }}</h1>
+        </div>
+        <div class="info">
+            <div class="birthday">{{ user }} 已经来到bukobook {{ user.age }}</div>
+            <div class="cup-list" style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;">
+                <div class="cup">
+                    <div class="cup-name">发表数</div>
+                    <div class="cup-hr"></div>
+                    <div class="cup-value">{{ user.publish }}</div>
+                </div>
+                <div class="cup">
+                    <div class="cup-name" id="attention">关注数</div>
+                    <div class="cup-hr"></div>
+                    <div class="cup-value">{{ user.attention }}</div>
+                </div>
+                <div class="cup">
+                    <div class="cup-name">粉丝数</div>
+                    <div class="cup-hr"></div>
+                    <div class="cup-value">{{ user.follower }}</div>
+                </div>
+                <div class="cup">
+                    <div class="cup-name">收藏数</div>
+                    <div class="cup-hr"></div>
+                    <div class="cup-value">{{ user.collection }}</div>
+                </div>
             </div>
-            {% if user.id == request.user.id %}
-                <li><a href="{% url 'bukobook:update' id=article.id %}">Edit</a></li>
-            {% endif %}
-            <li><a href="{% url 'bukobook:article' id=article.id %}" style="float: right">查看全文</a></li>
-        </header>
-        {% if not forloop.last %}
-            <hr>
-        {% endif %}
-    {% endfor %}
-    <hr>
+        </div>
+        <div class="other"></div>
+    </div>
+    <div class="user-text">
+        <div class="publish">
+            <div class="list-head">
+                <img class="tag" src="{% static 'img/article.jpg' %}">
+                <div class="name">
+                    发表
+                </div>
+            </div>
+            <div class="list-body">
+                {% for article in articles %}
+                    <div class="article" id="{{ article.id }}" onclick="location='{% url 'bukobook:article' id=article.id %}'">
+                        <div class="title">
+                            {{ article.title }}
+                        </div>
+                        <div class="synopsis">{{ article.body|slice:"300" }}</div>
+                    </div>
+                    <div class="option">
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="trends">
+
+        </div>
+    </div>
 {% endblock %}

@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'kennike.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'tennike_bukobook',
+        'NAME': 'bukobook',
         'HOST': '127.0.0.1',
         'USER': 'root',
         'PASSWORD': '',

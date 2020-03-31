@@ -1,0 +1,161 @@
+.title h1 {
+    flex: auto;
+    margin: 10px;
+    font-size: 1.5em;
+}
+
+.body pre {
+    font-family: Arial;
+    font-size: large;
+    padding: 0px 40px;
+    white-space: pre-line;
+}
+
+.comment-box, .reply-box {
+    background: lightgray;
+    border-color: #cae6f6;
+    height: 12em;
+}
+
+.comment-area.author {
+    display: flex;
+    align-items: flex-end;
+    font-size: 0.85em;
+}
+
+.author > h1 {
+    font-size: 1.5em;
+    margin-bottom: 0;
+}
+
+textarea {
+    border-radius: 10px;
+    resize: none;
+}
+
+.submit-comment form {
+    margin: 1em 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.submit-comment label {
+    font-weight: bold;
+    margin-bottom: 0.5em;
+}
+
+.submit-comment input, .submit-comment textarea {
+    margin-bottom: 1em;
+}
+
+.reply-box {
+    background: lightgray;
+    border-color: #cae6f6;
+    width: 70%;
+    height: 90px;
+    -webkit-transition: placeholder 1s ease;
+    -moz-transition: placeholder 1s ease;
+    -o-transition: placeholder 1s ease;
+    transition: placeholder 1s ease;
+}
+
+.reply-box:hover {
+    background: white;
+}
+
+.reply-box:focus {
+    outline: none;
+    border-color: lightblue;
+    background: white;
+}
+
+.reply-area {
+    padding: 10px 0px;
+}
+
+.reply {
+    display: none;
+}
+
+.comment-box {
+    background: lightgray;
+    border-color: #cae6f6;
+    height: 12em;
+    width: auto;
+}
+
+.comment-box:hover {
+    background: white;
+}
+
+.comment-box:focus {
+    outline: none;
+    border-color: lightblue;
+    background: white;
+}
+
+.comment-body {
+    padding: 10px 0px;
+}
+
+.reply-button {
+    display: inline-block;
+    color: darkgray;
+    padding:3px 5px;
+    font-size: medium;
+}
+
+.reply-button:hover {
+    background-color: lightgray;
+    border-radius: 5px;
+    color: lightskyblue;
+}
+
+.reply-body {
+    padding-left:50px;
+}
+
+.button-box:hover {
+    display: inline-block;
+    color: #cae6f6;
+    cursor: pointer;
+}
+
+.comment-label {
+     vertical-align: top;
+}
+
+.sub-button {
+    border-color: #cae6f6;
+    background-color: #cae6f6;
+    color: white;
+    font-size: 20px;
+    width: 90px;
+    text-align: center;
+    border-radius: 16px;
+    position: absolute;
+    padding: 15px 15px;
+    white-space: normal;
+    margin-left: 10px;
+}
+
+.sub-button:hover {
+    border-color: lightskyblue;
+    background-color: lightskyblue;
+}
+
+#main-submit-button {
+    background-color: #cae6f6;
+    border: #cae6f6;
+    border-radius: 3px;
+}
+
+#main-submit-button:hover {
+    border-color: lightskyblue;
+    background-color: lightskyblue;
+}
+
+.submit-comment {
+    padding: 5px 20px;
+}
+

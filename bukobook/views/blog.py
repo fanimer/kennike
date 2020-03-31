@@ -8,7 +8,7 @@ from django.db.models import F
 
 def index(request):
     latest_list = Article.objects.values\
-    ("author__username", "author_id", "title", "body", "id", "create_time")[:5]
+    ("author__username", "author_id", "title", "body", "id", "create_time").order_by('-create_time')
     context = {'latest_list': latest_list}
     return render(request, 'blog/index.html', context)
 
@@ -36,30 +36,28 @@ def create_article(request):
 
 def read_article(request, id):
     article = Article.objects.get(id=id)
-    article.pv = F('pv')+1
+    article.pv = F('pv') + 1
     article.save()
-    comments = Comment.objects.filter(article_id=id)
+    comments = Comment.objects.filter(article_id=id, tag="C")
+    for comment in comments:
+        comment.reply = Comment.objects.filter(article_id=id, floor=comment.id, tag="R").order_by('-create_time')[:3]
     context = {'article': article, 'comments': comments}
     return render(request, 'blog/article.html', context)
 
-
 @csrf_exempt
 def update(request, id):
-    article = Article.objects.filter(id=id)
-    if article[0].author_id is not request.user.id:
+    article = Article.objects.get(id=id)
+    if article.author_id is not request.user.id:
         raise Http404("No access to this page.")
     elif request.method == 'POST':
         error = None
-        info = {
-            'title': request.POST['title'],
-            'body': request.POST['title']
-        }
-        article.update(info)
+        article.title =  request.POST['title']
+        article.body =  request.POST['body']
+        article.save()
         return redirect('bukobook:article', id=id)
-    context = {'article': article[0]}
+    context = {'article': article}
     return render(request, 'blog/update.html', context)
 
-@login_required(login_url='/login')
 def personal(request, id):
     user = Userinfo.objects.get(id=id)
     articles = Article.objects.filter(author_id=id)
@@ -79,10 +77,31 @@ def submit_comment(request, id):
     if request.method == 'POST':
         comment = request.POST['comment']
         author = request.user.id
-        article = Article.objects.get(id=id)
-        article.comments = F('comments') + 1
-        article.save()
-        Comment.objects.create(article_id=id, body=comment, author_id=author).save()
+        if comment:
+            Comment.objects.create(article_id=id, body=comment,
+                                   author_id=author).save()
+        else:
+            error = 'Comment is emply.'
+            messages.add_message(request, messages.INFO, error)
+        return redirect('bukobook:article', id=id)
+    else:
+        raise Http404("This page is not exist.")
+
+@csrf_exempt
+def submit_reply(request, id):
+    if request.method == 'POST':
+        body = request.POST['reply']
+        author= request.user.id
+        floor = request.COOKIES.get('floor')
+        reply_to = request.COOKIES.get('reply_to')
+        tag = 'R'
+        if body:
+            Comment.objects.create(article_id=id, body=body,
+                                   author_id=author, floor=floor,
+                                   reply_to=reply_to, tag=tag).save()
+        else:
+            error = 'Comment is emply.'
+            messages.add_message(request, messages.INFO, error)
         return redirect('bukobook:article', id=id)
     else:
         raise Http404("This page is not exist.")
